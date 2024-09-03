@@ -40,8 +40,11 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ onSearch }) => {
           }`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder="Search Pokemon..."
+          placeholder="Search Pokémon..."
         />
+        <p className="mt-2 text-sm text-gray-500 text-center">
+          Hit enter to search
+        </p>
       </form>
     </div>
   );
