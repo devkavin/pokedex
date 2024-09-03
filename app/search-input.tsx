@@ -52,9 +52,7 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ onSearch }) => {
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          className={`w-96 h-20 mt-5 p-4 bg-white rounded-lg border-4 border-gray-800 shadow-[10px_10px_1px_1px_#00000024] hover:shadow-[10px_10px_10px_1px_#00000024] focus:outline-none transition-all ${
-            isFocused ? "transform-none" : "animate-float"
-          }`}
+          className={`w-96 h-20 mt-5 p-4 bg-white rounded-lg border-4 border-gray-800 shadow-[10px_10px_1px_1px_#00000024] hover:shadow-[10px_10px_10px_1px_#00000024] focus:outline-none transition-all`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
