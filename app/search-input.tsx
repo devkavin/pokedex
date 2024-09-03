@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import { fetchPokemonData } from "./fetchPokemonData";
 
 interface FloatingInputProps {
@@ -9,6 +9,23 @@ interface FloatingInputProps {
 const FloatingInput: React.FC<FloatingInputProps> = ({ onSearch }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [placeholder, setPlaceholder] = useState("Search Pokémon (e.g., Pikachu | Charmander | Gengar)... ");
+
+  useEffect(() => {
+    if (!isFocused && inputValue === "") {
+      const interval = setInterval(() => {
+        setPlaceholder((prev) => {
+          if (prev.length > 0) {
+            return prev.slice(1) + prev[0];
+          }
+          return placeholder;
+        });
+      }, 300 ); // This sets the speed of animation by changing the interval
+      return () => clearInterval(interval);
+    } else {
+      setPlaceholder(placeholder);
+    }
+  }, [isFocused, inputValue]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -16,13 +33,13 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ onSearch }) => {
     setInputValue("");
     try {
       const data = await fetchPokemonData(inputValue);
-      console.log(data.sprites.other.showdown.front_shiny);
-      console.log(data.sprites.front_default);
-      console.log(data.name);
+      // console.log(data.sprites.other.showdown.front_shiny);
+      // console.log(data.sprites.front_default);
+      // console.log(data.name);
       console.log(data);
-      for (let i = 0; i < data.stats.length; i++) {
-        console.log(data.stats[i].stat.name + ": " + data.stats[i].base_stat);
-      }
+      // for (let i = 0; i < data.stats.length; i++) {
+      //   console.log(data.stats[i].stat.name + ": " + data.stats[i].base_stat);
+      // }
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -40,7 +57,7 @@ const FloatingInput: React.FC<FloatingInputProps> = ({ onSearch }) => {
           }`}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          placeholder="Search Pokémon..."
+          placeholder={placeholder}
         />
         <p className="mt-2 text-sm text-gray-500 text-center">
           Hit enter to search
